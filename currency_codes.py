@@ -1,3 +1,5 @@
+# Not actually project file, just script for retrieve currency symbols and their codes
+
 import json
 
 x = {
