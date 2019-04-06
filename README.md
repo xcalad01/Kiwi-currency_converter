@@ -11,3 +11,7 @@ Options:
   --input_currency=INPUT_CURRENCY
   
   --output_currency=OUTPUT_CURRENCY
+## WEB API application
+
+
+## Supported currencies
