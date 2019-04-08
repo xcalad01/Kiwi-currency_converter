@@ -1,12 +1,12 @@
 #! /usr/bin/env python3.6
+
 from optparse import OptionParser
 import requests
 import json
+import xml.etree.cElementTree as ET
 
 
 class CurrencyConverter:
-    API_BASE = 'https://openexchangerates.org/api/latest.json'
-    API_KEY = '906d13780b9b44198a07da4d6ad95af7'
 
     def __init__(self):
         self.codes = self.get_codes()
@@ -58,19 +58,34 @@ class CurrencyConverter:
 
         return cli_output
 
-    def get_data_rates(self):
+    @staticmethod
+    def get_data_rates():
         """
         Retrieves data about currency rates from api server in json format.
         :return: Currency rates json object.
         """
-        response = requests.get(self.API_BASE, params={'app_id': self.API_KEY})
+        response = requests.get("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")
+        root = ET.fromstring(response.text)
 
         if response.status_code != 200:
             raise Exception('Failed to get currrency rates')
 
-        return response.json()['rates']
+        result_json_rates = {}
 
-    def get_codes(self):
+        try:
+            for child in root[2][0]:
+                result_json_rates[child.attrib.get('currency')] = float(child.attrib.get('rate'))
+        except IndexError:
+            raise Exception("Index out of bound exception")
+        except ValueError:
+            raise Exception("Bad currency value format")
+
+        print(result_json_rates)
+
+        return json.loads(json.dumps(result_json_rates))
+
+    @staticmethod
+    def get_codes():
         """
         Reads currency symbols and their codes from file 'symbols_codes'.
         :return: Currency symbols and their codes json object.
@@ -100,10 +115,11 @@ class CurrencyConverter:
                 result_json[rate] = result
 
         cli_output['output'] = result_json
-        self.print_result(cli_output)
 
+        return cli_output
 
-    def print_result(self, result):
+    @staticmethod
+    def print_result(result):
         print(json.dumps(result, indent=4))
 
 
@@ -116,4 +132,5 @@ if __name__ == '__main__':
     converter = CurrencyConverter()
 
     output = converter.parse_arguments(parser)
-    converter.compute(output)
+    output = converter.compute(output)
+    converter.print_result(output)
