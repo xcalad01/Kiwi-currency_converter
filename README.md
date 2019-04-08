@@ -47,5 +47,4 @@ Symbol|Code
 "S$" | "SGD",
 "\u0e3f" | "THB",
 "TL" | "TRY",
-"\u20b4" | "UAH",
 "R" | "ZAR",
