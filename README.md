@@ -1,7 +1,9 @@
 # Kiwi-currency_converter
 ## CLI application
 ### Usage
-Usage: currency_converter.py [options]
+chmod +x currency_converter.py
+
+./currency_converter.py [options]
 
 Options:
   -h, --help            show this help message and exit
@@ -12,8 +14,13 @@ Options:
   
   --output_currency=OUTPUT_CURRENCY => If missing, converts to all supported currencies
 ## WEB API application
+Running by default on http://127.0.0.1:5000
+### Usage
+chmod +x api.py
+./api.py
+GET /currency_converter?amount=0.9&input_currency=¥&output_currency=AUD HTTP/1.1
 
-
+output_currency => If missing, converts to all suported currencies
 ## Supported currencies
 Symbol|Code
 ----- | ---
