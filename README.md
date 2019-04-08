@@ -20,7 +20,7 @@ chmod +x api.py
 
 ./api.py
 
-GET /currency_converter?amount=0.9&input_currency=¥&output_currency=AUD HTTP/1.1
+/currency_converter?amount=0.9&input_currency=¥&output_currency=AUD HTTP/1.1
 
 output_currency => If missing, converts to all suported currencies
 ## Supported currencies
