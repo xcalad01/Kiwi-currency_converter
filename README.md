@@ -10,7 +10,7 @@ Options:
   
   --input_currency=INPUT_CURRENCY
   
-  --output_currency=OUTPUT_CURRENCY
+  --output_currency=OUTPUT_CURRENCY => If missing, converts to all supported currencies
 ## WEB API application
 
 
