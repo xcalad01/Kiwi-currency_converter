@@ -23,6 +23,10 @@ chmod +x api.py
 /currency_converter?amount=0.9&input_currency=¥&output_currency=AUD
 
 output_currency => If missing, converts to all suported currencies
+
+###
+Docker
+
 ## Supported currencies
 Symbol|Code
 ----- | ---
