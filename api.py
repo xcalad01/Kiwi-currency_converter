@@ -1,3 +1,5 @@
+#! /usr/bin/env python3.6
+
 from flask import Flask, request, make_response, jsonify
 from currency_converter import CurrencyConverter
 
@@ -34,4 +36,4 @@ def currency_converter():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

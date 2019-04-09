@@ -6,9 +6,9 @@ import json
 import xml.etree.cElementTree as ET
 
 
-# TODO USD,UAH
-
 class CurrencyConverter:
+
+    URL = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
 
     def __init__(self):
         self.codes = self.get_codes()
@@ -54,6 +54,12 @@ class CurrencyConverter:
 
         input_symb = self.convert_to_code(options.input_currency)
 
+        if input_symb not in self.rates:
+            raise Exception("Bad input currency symbol / code")
+
+        if output_symb not in self.rates:
+            raise Exception("Bad output currency symbol / code")
+
         cli_output = {
             'input': {
                 'amount': options.amount,
@@ -64,13 +70,12 @@ class CurrencyConverter:
 
         return cli_output
 
-    @staticmethod
-    def get_data_rates():
+    def get_data_rates(self):
         """
         Retrieves data about currency rates from api server in json format.
         :return: Currency rates json object.
         """
-        response = requests.get("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")
+        response = requests.get(self.URL)
 
         if response.status_code != 200:
             raise Exception('Failed to get currrency rates')
@@ -89,7 +94,7 @@ class CurrencyConverter:
 
         # Need to explicitly add EUR to EUR
         result_json_rates['EUR'] = float(1)
-        return json.loads(json.dumps(result_json_rates,indent=4))
+        return json.loads(json.dumps(result_json_rates, indent=4))
 
     @staticmethod
     def get_codes():
@@ -97,8 +102,14 @@ class CurrencyConverter:
         Reads currency symbols and their codes from file 'symbols_codes'.
         :return: Currency symbols and their codes json object.
         """
-        with open('symbols_codes', 'r') as file:
-            return json.loads(file.read())
+        try:
+            with open('symbols_codes', 'r') as file:
+                result = json.loads(file.read())
+                file.close()
+        except IOError:
+            raise Exception("Symbols_codes file missing in directory.")
+
+        return result
 
     def compute(self, cli_output):
         """
