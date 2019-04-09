@@ -7,7 +7,6 @@ import xml.etree.cElementTree as ET
 
 
 class CurrencyConverter:
-
     URL = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
 
     def __init__(self):
@@ -30,7 +29,7 @@ class CurrencyConverter:
             code = currency
 
         if code not in self.rates:
-            raise Exception('Bad input/output symbol/code')
+            self.handle_error('Bad input/output symbol/code')
 
         return code
 
@@ -43,22 +42,22 @@ class CurrencyConverter:
         (options, args) = arg_parser.parse_args()
 
         if options.amount is None:
-            raise Exception('Argument amount is missing!')
+            self.handle_error('Argument amount is missing!')
+
         if options.input_currency is None:
-            raise Exception('Argument input_currency is missing!')
+            self.handle_error('Argument input_currency is missing!')
 
         if options.output_currency is not None:
             output_symb = self.convert_to_code(options.output_currency)
+            if output_symb not in self.rates:
+                self.handle_error("Bad output currency symbol / code")
         else:
             output_symb = None
 
         input_symb = self.convert_to_code(options.input_currency)
 
         if input_symb not in self.rates:
-            raise Exception("Bad input currency symbol / code")
-
-        if output_symb not in self.rates:
-            raise Exception("Bad output currency symbol / code")
+            self.handle_error("Bad input currency symbol / code")
 
         cli_output = {
             'input': {
@@ -79,7 +78,7 @@ class CurrencyConverter:
         response = requests.get(self.URL)
 
         if response.status_code != 200:
-            raise Exception('Failed to get currrency rates')
+            self.handle_error('Failed to get currency rates')
 
         root = ET.fromstring(response.text)
 
@@ -97,8 +96,7 @@ class CurrencyConverter:
         result_json_rates['EUR'] = float(1)
         return json.loads(json.dumps(result_json_rates, indent=4))
 
-    @staticmethod
-    def get_codes():
+    def get_codes(self):
         """
         Reads currency symbols and their codes from file 'symbols_codes'.
         :return: Currency symbols and their codes json object.
@@ -108,7 +106,7 @@ class CurrencyConverter:
                 result = json.loads(file.read())
                 file.close()
         except IOError:
-            raise Exception("Symbols_codes file missing in directory.")
+            self.handle_error("Symbols_codes file missing in directory.")
 
         return result
 
@@ -140,6 +138,11 @@ class CurrencyConverter:
     @staticmethod
     def print_result(result):
         print(json.dumps(result, indent=4))
+
+    @staticmethod
+    def handle_error(error_message):
+        print(error_message)
+        exit(-1)
 
 
 if __name__ == '__main__':
