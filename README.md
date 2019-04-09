@@ -1,10 +1,11 @@
 # Kiwi-currency_converter
 ## CLI application
 ### Usage
+```
 chmod +x currency_converter.py
 
 ./currency_converter.py [options]
-
+```
 Options:
   -h, --help            show this help message and exit
   
@@ -14,17 +15,31 @@ Options:
   
   --output_currency=OUTPUT_CURRENCY => If missing, converts to all supported currencies
 ## WEB API application
-Running by default on http://127.0.0.1:5000
+Running by default on http://127.0.0.1:5000/
 ### Usage
+```
 chmod +x api.py
 
 ./api.py
 
 /currency_converter?amount=0.9&input_currency=¥&output_currency=AUD
-
+```
 output_currency => If missing, converts to all suported currencies
 
 ### Docker
+Possible also use pre-pared Dockerfile:
+
+```
+docker build -t currency_converter .
+
+docker run -p 5000:5000 currency_converter
+```
+Then you can get result on your local host:
+
+```
+http://127.0.0.1:5000/currency_converter?[options]
+```
+
 
 ## Supported currencies
 Symbol|Code
