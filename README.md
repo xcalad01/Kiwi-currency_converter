@@ -24,8 +24,7 @@ chmod +x api.py
 
 output_currency => If missing, converts to all suported currencies
 
-###
-Docker
+### Docker
 
 ## Supported currencies
 Symbol|Code
