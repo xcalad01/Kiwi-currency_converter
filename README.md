@@ -15,7 +15,7 @@ Options:
   
   --output_currency=OUTPUT_CURRENCY => If missing, converts to all supported currencies
 ## WEB API application
-Running by default on http://127.0.0.1:5000/
+Running by default on http://127.0.0.1:5000
 ### Usage
 ```
 chmod +x api.py
