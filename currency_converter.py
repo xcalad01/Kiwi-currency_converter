@@ -72,7 +72,8 @@ class CurrencyConverter:
 
     def get_data_rates(self):
         """
-        Retrieves data about currency rates from api server in json format.
+        Retrieves data about currency rates from hard coded url in xml format
+        and converts it to json.
         :return: Currency rates json object.
         """
         response = requests.get(self.URL)
