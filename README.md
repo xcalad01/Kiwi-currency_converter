@@ -15,7 +15,7 @@ Options:
   
   --output_currency=OUTPUT_CURRENCY => If missing, converts to all supported currencies
 ## WEB API application
-Running by default on http://127.0.0.1:5000/
+Running by default on http://127.0.0.1:5000
 ### Usage
 ```
 chmod +x api.py
@@ -27,7 +27,7 @@ chmod +x api.py
 output_currency => If missing, converts to all suported currencies
 
 ### Docker
-Possible also use pre-pared Dockerfile:
+Or you can use prepared Dockerfile:
 
 ```
 docker build -t currency_converter .
